@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +25,7 @@
         }
         .header {
             color: #073763;
-            font-size: 115px;
+            font-size: 110px;
         }
         .image {
             display: inline-block;
@@ -57,8 +56,8 @@
             padding: 2%;
             border: 2px solid #073763;
             display: inline-block;
-            width: 27%;
-            height: 75%;
+            width: 42%;
+            height: 82%;
             vertical-align: top;
             margin: .5%;
         }
@@ -67,20 +66,11 @@
             padding: 2%;
             border: 2px solid #073763;
             display: inline-block;
-            width: 28%;
-            height: 75%;
+            width: 42%;
+            height: 82%;
             vertical-align: top;
             margin: .5%;
-        }
-        .table_three {
-            background-color: white;
-            padding: 2%;
-            border: 2px solid #073763;
-            display: inline-block;
-            width: 28%;
-            height: 75%;
-            vertical-align: top;
-            margin: .5%;
+            float: right;
         }
         #schedule {
             vertical-align: top;
@@ -100,7 +90,7 @@
             min-width: 100%;
         }
         td {
-            font-size: 25px;
+            font-size: 30px;
             color: #073763;
             max-height: 2em;
         }
@@ -109,6 +99,7 @@
         }
         .navigation {
             margin: auto;
+            height: 15%;
         }
         .leftArrow {
             float: left;
@@ -143,7 +134,7 @@
             id="tz24-1542631123-cu126229-eyJob3VydHlwZSI6IjEyIiwic2hvd2RhdGUiOiIxIiwic2hvd3NlY29uZHMiOiIwIiwiY29udGFpbmVyX2lkIjoiY2xvY2tfYmxvY2tfY2I1YmYyYWVkMzg2OTU1IiwidHlwZSI6ImRiIiwibGFuZyI6ImVuIn0=" 
             title="timezone - Waltham" target="_blank" rel="nofollow">Current time in Waltham</a></p><div id="clock_block_cb5bf2aed386955"></div></div>
             <script type="text/javascript" src="//w.24timezones.com/l.js" async></script>
-        </div>    
+        </div> 
     </div>
     <div class="main">
         <div class="table_one">
@@ -167,9 +158,6 @@
             <tbody>
             </tbody>
         </table>
-        </div>
-        <div class="table_three">
-            
         </div>
     </div>
     <div class="navigation">
@@ -220,7 +208,7 @@
     <script>
         function setupWeek(messageList) {
             var table = document.getElementById('announcements').getElementsByTagName('tbody')[0];
-            for(i = 0; i < 10; i++) {
+            for(i = 0; i < 1; i++) {
                 var row = table.insertRow(i);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -232,19 +220,15 @@
         var messageList = [];
         
         const onDataLoaded = (data) => {
-            for(i = 0; i < 10; i++) {
+            for(i = 0; i < 1; i++) {
                 var varOne = 'A' + (i+1);
                 var varTwo = 'B' + (i+1);
                 
                 var itemOne = " ";  
                 var itemTwo = " ";  
                 
-                try {
-                    itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
-                    itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
-                } catch() {
-                    alert(err);
-                }
+                itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
+                itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
                 messageList.push([itemOne,itemTwo]);
                 
             }
