@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,22 +26,22 @@
         }
         .header {
             color: #073763;
-            font-size: 110px;
+            font-size: 130px;
         }
         .image {
             display: inline-block;
-            width: 24%;
+            width: 20%;
             vertical-align: top;
         }
         .title {
             display: inline-block;
-            width: 50%;
+            width: 59%;
             text-align: center;
             vertical-align: top;
         }
         .clock {
             display: inline-block;
-            width: 24%;
+            width: 20%;
             text-align: right;
             vertical-align: top;
         }
@@ -48,7 +49,7 @@
            margin: auto;
            width: 100%;
            padding-top: 2%;
-           height: 60%;
+           height: 59%;
            overflow: hidden;
         }
         .table_one {
@@ -99,17 +100,19 @@
         }
         .navigation {
             margin: auto;
-            height: 15%;
+            height: 20%;
         }
         .leftArrow {
             float: left;
             color: white;
             font-size: 35px;
+            height: 10%;
         }
         .rightArrow {
             float: right;
             color: white;
             font-size: 35px;
+            height: 10%;
         }
         .footer {
             bottom: 0;
@@ -208,27 +211,34 @@
     <script>
         function setupWeek(messageList) {
             var table = document.getElementById('announcements').getElementsByTagName('tbody')[0];
-            for(i = 0; i < 1; i++) {
+            for(i = 0; i < 10; i++) {
                 var row = table.insertRow(i);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 cell1.innerHTML = messageList[i][0];
                 cell2.innerHTML = messageList[i][1];
+                cell1.style.width = "40%";
             }
         }
         
         var messageList = [];
         
         const onDataLoaded = (data) => {
-            for(i = 0; i < 1; i++) {
+            for(i = 0; i < 10; i++) {
                 var varOne = 'A' + (i+1);
                 var varTwo = 'B' + (i+1);
                 
                 var itemOne = " ";  
                 var itemTwo = " ";  
                 
-                itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
-                itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
+                try {
+                    itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
+                } catch (e) {
+                }
+                try {
+                    itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
+                } catch(e) {
+                }
                 messageList.push([itemOne,itemTwo]);
                 
             }
