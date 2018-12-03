@@ -49,7 +49,7 @@
            margin: auto;
            width: 100%;
            padding-top: 2%;
-           height: 59%;
+           height: 57%;
            overflow: hidden;
         }
         .table_one {
@@ -58,7 +58,7 @@
             border: 2px solid #073763;
             display: inline-block;
             width: 42%;
-            height: 82%;
+            height: 85%;
             vertical-align: top;
             margin: .5%;
         }
@@ -68,7 +68,7 @@
             border: 2px solid #073763;
             display: inline-block;
             width: 42%;
-            height: 82%;
+            height: 85%;
             vertical-align: top;
             margin: .5%;
             float: right;
@@ -100,19 +100,20 @@
         }
         .navigation {
             margin: auto;
-            height: 20%;
+            height: 10%;
+            overflow: hidden;
         }
         .leftArrow {
             float: left;
             color: white;
-            font-size: 35px;
-            height: 10%;
+            font-size: 50px;
+            top: 0;
         }
         .rightArrow {
             float: right;
             color: white;
-            font-size: 35px;
-            height: 10%;
+            font-size: 50px;
+            top: 0;
         }
         .footer {
             bottom: 0;
@@ -211,20 +212,27 @@
     <script>
         function setupWeek(messageList) {
             var table = document.getElementById('announcements').getElementsByTagName('tbody')[0];
-            for(i = 0; i < 10; i++) {
+            for(i = 0; i < 5; i++) {
                 var row = table.insertRow(i);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
-                cell1.innerHTML = messageList[i][0];
+                var elements = messageList[i][0].split(" ");
+                var elementOne = elements[0];
+                var elementTwo = "";
+                for(j = 1; j < elements.length; j++) {
+                    elementTwo +=  elements[j] + " ";
+                }
+                cell1.innerHTML = elementOne + "<br>" + elementTwo
                 cell2.innerHTML = messageList[i][1];
                 cell1.style.width = "40%";
+                cell2.style.height = "2.5em";
             }
         }
         
         var messageList = [];
         
         const onDataLoaded = (data) => {
-            for(i = 0; i < 10; i++) {
+            for(i = 0; i < 5; i++) {
                 var varOne = 'A' + (i+1);
                 var varTwo = 'B' + (i+1);
                 
