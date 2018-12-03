@@ -165,8 +165,8 @@
         </div>
     </div>
     <div class="navigation">
-        <p class="leftArrow">← Rooms 101 - 121</p>
-        <p class="rightArrow">Rooms 120 - 147 →</p>
+        <p class="leftArrow">← Rooms 101 - 121, Great Hall</p>
+        <p class="rightArrow">Gym, Rooms 120 - 147 →</p>
     </div>
     <div class="footer">
         <a class="weatherwidget-io" href="https://forecast7.com/en/42d38n71d24/waltham/?unit=us" data-label_1="Waltham, MA" data-label_2="WEATHER" 
@@ -178,39 +178,63 @@
     </div>
     </div>
     <script>
-        function getSchedule() {
-            var monThur = [["7:45 - 8:10","SPARK"],["8:15 - 8:35","RC Morning Block"],["8:35 - 9:28","A Block"],["9:28 - 10:20","B Block"],
-            ["10:20 - 10:50","Snack/Recess"],["10:50 - 11:43","C Block"],["11:43 - 12:35","D Block"],["12:35 - 1:15","Lunch/Recess"],
-            ["1:15 - 2:08","E Block"],["2:08 - 3:00","F Block"],["3:00 - 3:10","NCLU/HRs - go to dismissal"],["3:15","Dismissal Begins"]]; 
-            var fri = [["7:45 - 8:10","SPARK"],["8:15 - 8:30","RC Morning Block"],["8:30 - 9:14","A Block"],["9:14 - 9:58","B Block"],
-            ["9:58 - 10:23","Snack/Recess"],["10:23 - 11:05","C Block"],["11:05 - 11:49","D Block"],["11:49 - 12:10","HRs or THs - go to dismissal"],
-            ["12:15","Dismissal Begins"]];
-            var override = false;
-            var day;
-            var table = document.getElementById('schedule').getElementsByTagName('tbody')[0];
-            var date = new Date();
-            if(override) {
-                day = fri;
-            } else if(date.getDay() != 5) {
-                day = monThur;
-            } else {
-                day = fri;
-            }
-            for(i = 0; i < day.length; i++) {
-                var row = table.insertRow(i);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-
-                cell1.innerHTML = day[i][0];
-                cell2.innerHTML = day[i][1];
-                cell1.style.width = "40%";
+        var messageList = [];
+        var calendarList = [];
+        
+        const onDataLoaded = (data) => {
+            for(i = 1; i < 6; i++) {
+                var varOne = 'A' + (i+1);
+                var varTwo = 'B' + (i+1);
+                
+                var itemOne = " ";  
+                var itemTwo = " ";  
+                
+                try {
+                    itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
+                } catch (e) {
+                }
+                try {
+                    itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
+                } catch(e) {
+                }
+                messageList.push([itemOne,itemTwo]);
             }
             
+            populateAnnouncements(messageList);
+            
+            var begin;
+            
+            var date = new Date();
+            if(data.feed.entry.find((entry) => entry.title.$t == "B36").content.$t == "(yes/no) yes") {
+                begin = 37;
+            } else if(date.getDay() != 5) {
+                begin = 9;
+            } else {
+                begin = 23;
+            }
+            
+            for(j = begin; j < begin+12; j++) {
+                var varOne = 'A' + j;
+                var varTwo = 'B' + j;
+                
+                var itemOne = " ";  
+                var itemTwo = " ";  
+                
+                try {
+                    itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
+                } catch (e) {
+                }
+                try {
+                    itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
+                } catch(e) {
+                }
+                calendarList.push([itemOne,itemTwo]);
+            }
+            
+            populateCalendar(calendarList);
         }
-        window.onload = getSchedule;
-    </script>
-    <script>
-        function setupWeek(messageList) {
+        
+        function populateAnnouncements(messageList) {
             var table = document.getElementById('announcements').getElementsByTagName('tbody')[0];
             for(i = 0; i < 5; i++) {
                 var row = table.insertRow(i);
@@ -229,30 +253,21 @@
             }
         }
         
-        var messageList = [];
-        
-        const onDataLoaded = (data) => {
-            for(i = 0; i < 5; i++) {
-                var varOne = 'A' + (i+1);
-                var varTwo = 'B' + (i+1);
-                
-                var itemOne = " ";  
-                var itemTwo = " ";  
-                
-                try {
-                    itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
-                } catch (e) {
-                }
-                try {
-                    itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
-                } catch(e) {
-                }
-                messageList.push([itemOne,itemTwo]);
-                
+        function populateCalendar(calendarList) {
+            var table = document.getElementById('schedule').getElementsByTagName('tbody')[0];
+            
+            for(i = 0; i < calendarList.length; i++) {
+                var row = table.insertRow(i);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+
+                cell1.innerHTML = calendarList[i][0];
+                cell2.innerHTML = calendarList[i][1];
+                cell1.style.width = "40%";
             }
-            setupWeek(messageList);
         }
     </script>
     <script src="https://spreadsheets.google.com/feeds/cells/17j7Mz4ljmyjayxGt28PGftgE79yjRvV5WrH8TQsnRc0/1/public/basic?alt=json-in-script&callback=onDataLoaded"></script>
 </body>
+</html>
 </html>
