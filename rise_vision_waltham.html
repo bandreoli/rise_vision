@@ -123,9 +123,7 @@
             margin-right: auto;
         }
         .navigation {
-            margin: auto;
             height: 10%;
-            overflow: hidden;
         }
         .leftArrow {
             float: left;
@@ -133,6 +131,8 @@
             font-size: 50px;
             top: 0;
             font-weight: bold;
+            margin-left: 1em;
+            margin-top: 3%;
         }
         .rightArrow {
             float: right;
@@ -140,6 +140,25 @@
             font-size: 50px;
             top: 0;
             font-weight: bold;
+            margin-right: 1em;
+            margin-top: 3%;
+        }
+        .arrowLeft {
+            float: left;
+            color: white;
+            font-size: 90px;
+            top: 0;
+            font-weight: bold;
+            vertical-align: top;
+            margin-top: 1.2%;
+        }
+        .arrowRight {
+            float: right;
+            color: white;
+            font-size: 90px;
+            top: 0;
+            font-weight: bold;
+            margin-top: 1.2%;
         }
         .footer {
             bottom: 0;
@@ -188,8 +207,10 @@
         </div>
     </div>
     <div class="navigation">
-        <p class="leftArrow">← Rooms 101 - 121, Great Hall</p>
-        <p class="rightArrow">Gym, Rooms 120 - 147 →</p>
+        <div class="arrowLeft">←</div>
+        <div class="leftArrow">Rooms 101 - 121, Great Hall</div>
+        <div class="arrowRight">→</div>
+        <div class="rightArrow">Gym, Rooms 120 - 147</div>
     </div>
     <div class="footer">
         <a class="weatherwidget-io" href="https://forecast7.com/en/42d38n71d24/waltham/?unit=us" data-label_1="Waltham, MA" data-label_2="WEATHER" 
