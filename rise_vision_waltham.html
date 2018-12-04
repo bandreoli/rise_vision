@@ -42,8 +42,24 @@
         .clock {
             display: inline-block;
             width: 20%;
-            text-align: right;
+            margin-top: 1em;
             vertical-align: top;
+            text-align: center;
+        }
+        .clockContainer {
+            background: white;
+            border: 2px solid #073763;
+            padding: 2%;
+            width: 75%;
+            float: right;
+            
+        }
+        #date {
+            font-size: 25px;
+        }
+        #time {
+            font-size: 40px;
+            width: 100%;
         }
         .main {
            margin: auto;
@@ -143,11 +159,17 @@
             <div class="header">The Carroll School</div>
         </div>
         <div class="clock">
+            <div class="clockContainer">
+            <!--
             <div class="cleanslate w24tz-current-time w24tz-middle"><p><a href="//24timezones.com/usa_time/ma_middlesex/waltham.php" 
             style="text-decoration: none" class="clock24" 
             id="tz24-1542631123-cu126229-eyJob3VydHlwZSI6IjEyIiwic2hvd2RhdGUiOiIxIiwic2hvd3NlY29uZHMiOiIwIiwiY29udGFpbmVyX2lkIjoiY2xvY2tfYmxvY2tfY2I1YmYyYWVkMzg2OTU1IiwidHlwZSI6ImRiIiwibGFuZyI6ImVuIn0=" 
             title="timezone - Waltham" target="_blank" rel="nofollow">Current time in Waltham</a></p><div id="clock_block_cb5bf2aed386955"></div></div>
             <script type="text/javascript" src="//w.24timezones.com/l.js" async></script>
+            -->
+                <div id="time"></div>
+                <div id="date"></div>
+            </div>
         </div> 
     </div>
     <div class="main">
@@ -222,10 +244,11 @@
                 
                 try {
                     item = data.feed.entry.find((entry) => entry.title.$t == element).content.$t;
+                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='" + item + "'>";
                 } catch (e) {
+                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='http://i.imgur.com/xrAAez9.png'>";
                 }
                 
-                document.getElementById('table_two').innerHTML = "<img id='mainImg' src='" + item + "'>";
             }
             
             var begin;
@@ -258,6 +281,8 @@
             }
             
             populateCalendar(calendarList);
+            
+            startTime();
         }
         
         function populateAnnouncements(messageList) {
@@ -290,6 +315,53 @@
                 cell1.innerHTML = calendarList[i][0];
                 cell2.innerHTML = calendarList[i][1];
                 cell1.style.width = "40%";
+            }
+        }
+        
+        function startTime() {
+            var today = new Date();
+            var y = today.getFullYear();
+            var mo = getMonth(today.getMonth());
+            var d = today.getDate();
+            var w = getDay(today.getDay());
+            var ord = nth(d);
+            
+            var h;
+            var ampm;
+            if(today.getHours() > 12) {
+                h = today.getHours() - 12;
+                ampm = " PM"
+            } else {
+                h = today.getHours();
+                ampm = " AM"
+            }
+            var m = today.getMinutes();
+            m = checkTime(m);
+            document.getElementById('date').innerHTML = 
+            w + ",<br>" + mo + " " + d + ord + ", " + y; 
+            document.getElementById('time').innerHTML =
+            h + ":" + m + ampm;
+            var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
+        function getMonth(month) {
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            return(months[month]);
+        }
+        function getDay(day) {
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            return(days[day]);
+        }
+        function nth(d) {
+            if (d > 3 && d < 21) return 'th'; 
+            switch (d % 10) {
+                case 1:  return "st";
+                case 2:  return "nd";
+                case 3:  return "rd";
+                default: return "th";
             }
         }
     </script>
