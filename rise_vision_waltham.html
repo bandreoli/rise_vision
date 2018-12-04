@@ -177,14 +177,19 @@
     </div>
     </div>
     <script>
+    
         var messageList = [];
         var calendarList = [];
         
         const onDataLoaded = (data) => {
             
-            var item = data.feed.entry.find((entry) => entry.title.$t == "B1").content.$t;
+            var option = "";
+            try {
+                option = data.feed.entry.find((entry) => entry.title.$t == "B8").content.$t;
+            } catch (e) {
+            }
             
-            if(item == "no") {
+            if(!(option == "1" || option == "2" || option == "3" || option == "4" || option == "5")) {
             
                 document.getElementById('table_two').innerHTML = "<table id='announcements'><thead><tr><th colspan='2'>Announcements</th></tr></thead><tbody></tbody></table>";
             
@@ -208,18 +213,28 @@
             
                 populateAnnouncements(messageList);
             } else {
+                var optionCount = Number(option) + 8;
+                var item;
+                
+                var element = "B" + optionCount.toString();
+                
+                try {
+                    item = data.feed.entry.find((entry) => entry.title.$t == element).content.$t;
+                } catch (e) {
+                }
+                
                 document.getElementById('table_two').innerHTML = "<img id='mainImg' src='" + item + "'>";
             }
             
             var begin;
             
             var date = new Date();
-            if(data.feed.entry.find((entry) => entry.title.$t == "B36").content.$t == "yes") {
-                begin = 37;
+            if(data.feed.entry.find((entry) => entry.title.$t == "B43").content.$t == "yes") {
+                begin = 44;
             } else if(date.getDay() != 5) {
-                begin = 9;
+                begin = 16;
             } else {
-                begin = 23;
+                begin = 30;
             }
             
             for(j = begin; j < begin+12; j++) {
