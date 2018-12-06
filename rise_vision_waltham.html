@@ -70,21 +70,21 @@
         }
         .table_one {
             background-color: white;
-            padding: 2%;
+            padding: 1%;
             border: 2px solid #073763;
             display: inline-block;
-            width: 42%;
-            height: 85%;
+            width: 45%;
+            height: 90%;
             vertical-align: top;
             margin: .5%;
         }
         #table_two {
             background-color: white;
-            padding: 2%;
+            padding: 1%;
             border: 2px solid #073763;
             display: inline-block;
-            width: 42%;
-            height: 85%;
+            width: 45%;
+            height: 90%;
             vertical-align: top;
             margin: .5%;
             float: right;
@@ -115,12 +115,31 @@
         thead > tr {
             width: 100%;
         }
-        #mainImg {
+        .mainImg {
             max-width:100%;
             height: 100%;
             display: block;
             margin-left: auto;
             margin-right: auto;
+        }
+        .mySlides {
+            width: 100%;
+            height: 100%;
+        }
+        .fade {
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 1.5s;
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        @-webkit-keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
         }
         .navigation {
             height: 10%;
@@ -232,6 +251,9 @@
     </div>
     <script>
     
+        var slideIndex = 0;
+        var period = 0;
+    
         var messageList = [];
         var calendarList = [];
         
@@ -240,17 +262,38 @@
             var option = "";
             try {
                 option = data.feed.entry.find((entry) => entry.title.$t == "B8").content.$t;
-                var optionCount = Number(option) + 8;
-                var item;
+                var optionCount = option.split(" ");
                 
-                var element = "B" + optionCount.toString();
+                period = Number(optionCount[optionCount.length-1]);
                 
-                try {
-                    item = data.feed.entry.find((entry) => entry.title.$t == element).content.$t;
-                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='" + item + "'>";
-                } catch (e) {
-                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='http://i.imgur.com/xrAAez9.png'>";
+                var html = "";
+                
+                for(i = 0;  i < optionCount.length - 1; i++) {
+                    var count = Number(optionCount[i]) + 8;
+                    var element = "B" + count.toString();
+                    
+                    try {
+                        item = data.feed.entry.find((entry) => entry.title.$t == element).content.$t;
+                        html += "<div class='mySlides fade'><img class='mainImg' src='" + item + "'></div>";
+                    } catch(e) {
+                        
+                    }
                 }
+                
+                document.getElementById('table_two').innerHTML = html;
+                
+                showSlides();
+                
+//                var item;
+//                
+//                var element = "B" + optionCount.toString();
+//                
+//                try {
+//                    item = data.feed.entry.find((entry) => entry.title.$t == element).content.$t;
+//                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='" + item + "'>";
+//                } catch (e) {
+//                    document.getElementById('table_two').innerHTML = "<img id='mainImg' src='http://i.imgur.com/xrAAez9.png'>";
+//                }
             } catch (e) {
                 document.getElementById('table_two').innerHTML = "<table id='announcements'><thead><tr><th colspan='2'>Announcements</th>" + 
                                                                  "</tr></thead><tbody></tbody></table>";
@@ -339,6 +382,18 @@
                 cell2.innerHTML = calendarList[i][1];
                 cell1.style.width = "40%";
             }
+        }
+        
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none"; 
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1} 
+            slides[slideIndex-1].style.display = "block"; 
+            setTimeout(showSlides, 1000 * period);
         }
         
         function startTime() {
