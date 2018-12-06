@@ -216,8 +216,17 @@
         <a class="weatherwidget-io" href="https://forecast7.com/en/42d38n71d24/waltham/?unit=us" data-label_1="Waltham, MA" data-label_2="WEATHER" 
         data-theme="original" >Waltham, MA WEATHER</a>
         <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);
-        js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        function weather(d,s,id){
+            var js,fjs=d.getElementsByTagName(s)[0];
+            if(!d.getElementById(id)) {
+                js=d.createElement(s);
+                js.id=id;
+                js.src='https://weatherwidget.io/js/widget.min.js';
+                fjs.parentNode.insertBefore(js,fjs);
+            }
+            var t = setTimeout(weather(document,'script','weatherwidget-io-js'), 60000);
+        }
+        weather(document,'script','weatherwidget-io-js');
         </script>
     </div>
     </div>
@@ -231,33 +240,6 @@
             var option = "";
             try {
                 option = data.feed.entry.find((entry) => entry.title.$t == "B8").content.$t;
-            } catch (e) {
-            }
-            
-            if(!(option == "1" || option == "2" || option == "3" || option == "4" || option == "5")) {
-            
-                document.getElementById('table_two').innerHTML = "<table id='announcements'><thead><tr><th colspan='2'>Announcements</th></tr></thead><tbody></tbody></table>";
-            
-                for(i = 1; i < 6; i++) {
-                    var varOne = 'A' + (i+1);
-                    var varTwo = 'B' + (i+1);
-                
-                    var itemOne = " ";  
-                    var itemTwo = " ";  
-                
-                    try {
-                        itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
-                    } catch (e) {
-                    }
-                    try {
-                        itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
-                    } catch(e) {
-                    }
-                    messageList.push([itemOne,itemTwo]);
-                }
-            
-                populateAnnouncements(messageList);
-            } else {
                 var optionCount = Number(option) + 8;
                 var item;
                 
@@ -269,7 +251,27 @@
                 } catch (e) {
                     document.getElementById('table_two').innerHTML = "<img id='mainImg' src='http://i.imgur.com/xrAAez9.png'>";
                 }
+            } catch (e) {
+                document.getElementById('table_two').innerHTML = "<table id='announcements'><thead><tr><th colspan='2'>Announcements</th>" + 
+                                                                 "</tr></thead><tbody></tbody></table>";
+            
+                for(i = 1; i < 6; i++) {
+                    var varOne = 'A' + (i+1);
+                    var varTwo = 'B' + (i+1);
                 
+                    var itemOne = " ";  
+                    var itemTwo = " ";  
+                
+                    try {
+                        itemOne = data.feed.entry.find((entry) => entry.title.$t == varOne).content.$t;
+                    } catch (e) {}
+                    try {
+                        itemTwo = data.feed.entry.find((entry) => entry.title.$t == varTwo).content.$t;
+                    } catch(e) {}
+                    messageList.push([itemOne,itemTwo]);
+                }
+            
+                populateAnnouncements(messageList);
             }
             
             var begin;
