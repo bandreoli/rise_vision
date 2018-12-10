@@ -20,7 +20,7 @@
             margin: 0; 
         }
         .logo {
-            width: 40%;
+            width: 50%;
         }
         .header_container {
         }
@@ -61,10 +61,16 @@
             font-size: 40px;
             width: 100%;
         }
+        .subheader {
+            width: 100%;
+            text-align: center;
+            color: #073763;
+            font-size: 40px;
+            vertical-align: top;
+        }
         .main {
            margin: auto;
            width: 100%;
-           padding-top: 2%;
            height: 57%;
            overflow: hidden;
         }
@@ -151,7 +157,7 @@
             top: 0;
             font-weight: bold;
             margin-left: 1em;
-            margin-top: 3%;
+            margin-top: 1.3%;
         }
         .rightArrow {
             float: right;
@@ -160,7 +166,7 @@
             top: 0;
             font-weight: bold;
             margin-right: 1em;
-            margin-top: 3%;
+            margin-top: 1.3%;
         }
         .arrowLeft {
             float: left;
@@ -169,7 +175,6 @@
             top: 0;
             font-weight: bold;
             vertical-align: top;
-            margin-top: 1.2%;
         }
         .arrowRight {
             float: right;
@@ -177,9 +182,8 @@
             font-size: 90px;
             top: 0;
             font-weight: bold;
-            margin-top: 1.2%;
         }
-        .footer {
+        #footer {
             bottom: 0;
             position: fixed;
             left: 0;
@@ -195,6 +199,7 @@
         </div>
         <div class="title">
             <div class="header">The Carroll School</div>
+            <div class="subheader">The Lower School, Waltham, MA</div>
         </div>
         <div class="clock">
             <div class="clockContainer">
@@ -224,22 +229,7 @@
         <div class="arrowRight">→</div>
         <div class="rightArrow">Gym, Rooms 120 - 147</div>
     </div>
-    <div class="footer">
-        <a class="weatherwidget-io" href="https://forecast7.com/en/42d38n71d24/waltham/?unit=us" data-label_1="Waltham, MA" data-label_2="WEATHER" 
-        data-theme="original" >Waltham, MA WEATHER</a>
-        <script>
-        function weather(d,s,id){
-            var js,fjs=d.getElementsByTagName(s)[0];
-            if(!d.getElementById(id)) {
-                js=d.createElement(s);
-                js.id=id;
-                js.src='https://weatherwidget.io/js/widget.min.js';
-                fjs.parentNode.insertBefore(js,fjs);
-            }
-            var t = setTimeout(weather(document,'script','weatherwidget-io-js'), 60000);
-        }
-        weather(document,'script','weatherwidget-io-js');
-        </script>
+    <div id="footer">
     </div>
     </div>
     <script>
@@ -342,6 +332,28 @@
             populateCalendar(calendarList);
             
             startTime();
+        }
+        
+        document.getElementById('footer').innerHTML = "<a class='weatherwidget-io' href='https://forecast7.com/en/42d38n71d24/waltham/?unit=us' data-label_1='Waltham, MA' data-label_2='WEATHER' data-theme='original' >Waltham, MA WEATHER</a>";
+        
+        weather();
+        
+        function weather(){
+            
+            d = document;
+            s = 'script';
+            id = 'weatherwidget-io-js';
+            
+            var js,fjs=d.getElementsByTagName(s)[0];
+            if(d.getElementById(id)) {
+                d.getElementById(id).parentNode.removeChild(id);
+            }
+            js=d.createElement(s);
+            js.id=id;
+            js.src='https://weatherwidget.io/js/widget.min.js';
+            fjs.parentNode.insertBefore(js,fjs);
+            
+            var t = setTimeout(weather, 6000);
         }
         
         function populateAnnouncements(messageList) {
